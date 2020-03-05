@@ -13,4 +13,10 @@ function createTodo() {
     const todoDesc = document.createElement('label');
     const todoEdit = document.createElement('div');
     const deleteBtn = document.createElement('button');
+
+    todoItem.classList.add('todo-list__item');
+    todoDesc.classList.add('todo-list__desc');
+    todoEdit.classList.add('todo-list__edit');
+    deleteBtn.classList.add('todo-list__delete');
+
 }
