@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+html(lang="ru")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title To-Do List
+        link(href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap&subset=cyrillic" rel="stylesheet")
+        link(rel="stylesheet", href="css/style.css")
+    body
+
+    header
+        h1.title To-Do List
+    main
+        section.todo
+            .inner
+                input(class='todo__input' type='text' placeholder='Что нужно сделать?' autofocus)
+                ul.todo-list
+    footer.footer
+        .inner
+            .footer__nav
+                p.footer__count Всего задач:
+                .button-box
+                    button(class='all-btn' type='button') Все
+                    button(class='active-btn' type='button') Активные
+                    button(class='complete-btn' type='button') Завершенные
+                button(class='clear-btn' type='button') Удалить завершенные
+
+    script(src="js/main.js")
