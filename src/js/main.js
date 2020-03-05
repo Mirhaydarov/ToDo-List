@@ -11,6 +11,25 @@ function appendElement(element, child) {
     element.appendChild(child);
 }
 
+todoInput.addEventListener('keydown', event => {
+    const isSpace = event.target.value.match(/^[ ]+$/);
+    const removeSpace = event.target.value.replace(/^[ ]+$/, '');
+    const keyName = event.key;
+
+    if (isSpace) {
+        event.target.value = removeSpace;
+
+    } else if (keyName === 'Enter' && event.target.value !== '') {
+        createTodo();
+        event.target.value = '';
+
+    } else if (keyName === 'Escape') {
+        event.target.value = '';
+        event.target.blur();
+    }
+
+});
+
 function createTodo() {
     const todoContainer = document.createElement('li');
     const todoItem = document.createElement('div');
