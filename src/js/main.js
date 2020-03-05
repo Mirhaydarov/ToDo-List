@@ -7,6 +7,10 @@ const activeBtn = document.querySelector('.active-btn');
 const completeBtn = document.querySelector('.complete-btn');
 const clearBtn = document.querySelector('.clear-btn');
 
+function appendElement(element, child) {
+    element.appendChild(child);
+}
+
 function createTodo() {
     const todoContainer = document.createElement('li');
     const todoItem = document.createElement('div');
@@ -18,5 +22,12 @@ function createTodo() {
     todoDesc.classList.add('todo-list__desc');
     todoEdit.classList.add('todo-list__edit');
     deleteBtn.classList.add('todo-list__delete');
+
+    todoDesc.textContent = todoInput.value;
+
+    appendElement(todoList, todoContainer);
+    appendElement(todoContainer, todoItem);
+    appendElement(todoItem, todoDesc);
+    appendElement(todoItem, deleteBtn);
 
 }
