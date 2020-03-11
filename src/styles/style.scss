@@ -57,7 +57,7 @@ body {
 
     &__item {
         position: relative;
-        background-color: $white-color;
+        background-color: $text-color--lighten;
         box-shadow: 0px 0px 5px $box-shadow-color;
         margin: 3px 0px;
         padding: $todo-padding;
@@ -68,6 +68,10 @@ body {
         cursor: pointer;
         word-break: break-word;
         transition: .5s all;
+    }
+
+    &__edit {
+        outline: none;
     }
 
     &__delete {
@@ -140,4 +144,11 @@ button {
     color: $done-color;
     text-decoration: line-through;
     transition: .5s all;
+}
+
+.item-edit {
+    box-shadow: 0px 1px 10px darken($box-shadow-color, 15);
+    background-color: darken($text-color--lighten, 3);
+    color: $text-color;
+    transform: translateY(-1px);
 }

@@ -50,6 +50,7 @@ function createTodo() {
     todoEdit.classList.add('todo-list__edit');
     deleteBtn.classList.add('todo-list__delete');
 
+    todoEdit.setAttribute('contenteditable', 'true');
     todoDesc.textContent = todoInput.value;
 
     appendElement(todoList, todoContainer);
@@ -69,4 +70,10 @@ function createTodo() {
         })
     });
 
+    todoItem.addEventListener('dblclick', () => {
+        todoEdit.textContent = todoDesc.textContent;
+        todoItem.replaceChild(todoEdit, todoDesc);
+        toggle(todoItem, 'item-edit');
+        todoItem.removeChild(deleteBtn);
+    });
 }
