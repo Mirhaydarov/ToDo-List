@@ -52,6 +52,44 @@ body {
     padding: 0;
     margin: 0;
     list-style-type: none;
+    font-size: $font-size--normal;
+    color:  $text-color;
+
+    &__item {
+        position: relative;
+        background-color: $white-color;
+        box-shadow: 0px 0px 5px $box-shadow-color;
+        margin: 3px 0px;
+        padding: $todo-padding;
+        border-radius: $todo-border-radius;
+    }
+
+    &__desc {
+        cursor: pointer;
+        word-break: break-word;
+        transition: .5s all;
+    }
+
+    &__delete {
+        display: none;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        right: 0;
+        font-size: $font-size--large;
+        color: $delete-btn-color;
+        margin-bottom: 11px;
+        transition: color 0.2s ease-out;
+        &::after {
+            content:'\00d7';
+        }
+
+        &:focus {
+            border: 0;
+            background: none;
+            outline: none;
+        }
+    }
 }
 
 .footer {
