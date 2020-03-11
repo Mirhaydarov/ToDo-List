@@ -11,6 +11,14 @@ function appendElement(element, child) {
     element.appendChild(child);
 }
 
+function toggle(element, elClass) {
+    element.classList.toggle(elClass);
+}
+
+function styleDisplay(element, type) {
+    element.style.display = type;
+}
+
 todoInput.addEventListener('keydown', event => {
     const isSpace = event.target.value.match(/^[ ]+$/);
     const removeSpace = event.target.value.replace(/^[ ]+$/, '');
@@ -48,5 +56,17 @@ function createTodo() {
     appendElement(todoContainer, todoItem);
     appendElement(todoItem, todoDesc);
     appendElement(todoItem, deleteBtn);
+
+    todoDesc.addEventListener('click', () => {
+        toggle(todoDesc, 'done');
+        toggle(todoContainer, 'done');
+        styleDisplay(clearBtn, 'none');
+
+        document.querySelectorAll('li .done').forEach( index => {
+            if (index) {
+                styleDisplay(clearBtn, 'block');
+            }
+        })
+    });
 
 }

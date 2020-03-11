@@ -126,3 +126,18 @@ button {
     padding: 2px;
     border: 1px solid transparent;
 }
+
+.clear-btn {
+    display: none;
+
+    &:focus {
+        border: 1px solid transparent;
+    }
+}
+
+.done {
+    display: block;
+    color: $done-color;
+    text-decoration: line-through;
+    transition: .5s all;
+}
