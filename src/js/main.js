@@ -15,6 +15,10 @@ function toggle(element, elClass) {
     element.classList.toggle(elClass);
 }
 
+function remove(element, elClass) {
+    element.classList.remove(elClass);
+}
+
 function styleDisplay(element, type) {
     element.style.display = type;
 }
@@ -76,4 +80,25 @@ function createTodo() {
         toggle(todoItem, 'item-edit');
         todoItem.removeChild(deleteBtn);
     });
+
+    todoEdit.addEventListener('keydown', event => {
+        const keyName = event.key
+
+        if (keyName === 'Enter') {
+            todoDesc.textContent = todoEdit.textContent;
+            remove(todoItem, 'item-edit');
+            todoItem.replaceChild(todoDesc, todoEdit);
+            appendElement(todoItem, deleteBtn);
+            todoEdit.remove();
+
+        } else if (keyName === 'Escape') {
+            remove(todoItem, 'item-edit');
+            todoItem.replaceChild(todoDesc, todoEdit);
+            appendElement(todoItem, deleteBtn);
+            todoEdit.remove();
+        }
+    });
+
+
+
 }
