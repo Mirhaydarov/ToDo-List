@@ -68,9 +68,7 @@ function createTodo() {
         styleDisplay(clearBtn, 'none');
 
         document.querySelectorAll('li .done').forEach( index => {
-            if (index) {
-                styleDisplay(clearBtn, 'block');
-            }
+            if (index) styleDisplay(clearBtn, 'block');
         })
     });
 
@@ -99,6 +97,22 @@ function createTodo() {
         }
     });
 
+    todoItem.addEventListener('mouseenter', () => {
+        styleDisplay(deleteBtn, 'block');
+    });
+
+    todoItem.addEventListener('mouseleave', () => {
+        styleDisplay(deleteBtn, 'none');
+    });
+
+    deleteBtn.addEventListener('click', () => {
+        todoContainer.remove();
+        styleDisplay(clearBtn, 'none');
+
+        document.querySelectorAll('li .done').forEach( index => {
+            if (index) styleDisplay(clearBtn, 'block');
+        })
+    });
 
 
 }
