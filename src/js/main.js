@@ -114,6 +114,10 @@ function createTodo() {
         })
     });
 
+    allBtn.addEventListener('click', () => {
+        styleDisplay(todoContainer, 'block');
+    })
+
     function checkContainerClass(elem) {
         elem ? styleDisplay(todoContainer, 'block')
              : styleDisplay(todoContainer, 'none');
