@@ -114,5 +114,21 @@ function createTodo() {
         })
     });
 
+    function checkContainerClass(elem) {
+        elem ? styleDisplay(todoContainer, 'block')
+             : styleDisplay(todoContainer, 'none');
+    }
+
+    activeBtn.addEventListener('click', () => {
+        const isClass = todoContainer.classList.contains('done');
+        checkContainerClass(!isClass);
+    });
+
+    completeBtn.addEventListener('click', () => {
+        const isClass = todoContainer.classList.contains('done');
+        checkContainerClass(isClass);
+
+    });
+
 
 }
