@@ -67,7 +67,7 @@ function createTodo() {
         toggle(todoContainer, 'done');
         styleDisplay(clearBtn, 'none');
 
-        document.querySelectorAll('li .done').forEach( index => {
+        document.querySelectorAll('li.done').forEach( index => {
             if (index) styleDisplay(clearBtn, 'block');
         })
     });
@@ -109,7 +109,7 @@ function createTodo() {
         todoContainer.remove();
         styleDisplay(clearBtn, 'none');
 
-        document.querySelectorAll('li .done').forEach( index => {
+        document.querySelectorAll('li.done').forEach( index => {
             if (index) styleDisplay(clearBtn, 'block');
         })
     });
@@ -134,5 +134,10 @@ function createTodo() {
 
     });
 
-
+    clearBtn.addEventListener('click', () => {
+        document.querySelectorAll('li.done').forEach(index => {
+            index.remove();
+            styleDisplay(clearBtn, 'none');
+        });
+    });
 }
