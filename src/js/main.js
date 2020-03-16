@@ -43,6 +43,7 @@ todoInput.addEventListener('keydown', event => {
 });
 
 function createTodo() {
+    const fragmentList = document.createDocumentFragment();
     const todoContainer = document.createElement('li');
     const todoItem = document.createElement('div');
     const todoDesc = document.createElement('label');
@@ -57,10 +58,11 @@ function createTodo() {
     todoEdit.setAttribute('contenteditable', 'true');
     todoDesc.textContent = todoInput.value;
 
-    appendElement(todoList, todoContainer);
     appendElement(todoContainer, todoItem);
     appendElement(todoItem, todoDesc);
     appendElement(todoItem, deleteBtn);
+    appendElement(fragmentList, todoContainer);
+    appendElement(todoList, fragmentList);
 
     todoDesc.addEventListener('click', () => {
         toggle(todoDesc, 'done');
