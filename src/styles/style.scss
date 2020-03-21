@@ -1,5 +1,6 @@
 @import "helpers/variables";
 @import "helpers/mixins";
+@import "helpers/media";
 @import "helpers/functions";
 @import "vendor/libs";
 @import "base/fonts";
@@ -11,7 +12,7 @@ body {
     background: $bg-color;
     font-size: $font-size--body;
     line-height: $line-height;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
     max-width: 1170px;
     margin: 0 auto;
     height: 100vh;
@@ -25,9 +26,21 @@ body {
 }
 
 .inner {
-    width: 45%;
+    max-width: 45%;
     display: block;
     margin: 0 auto;
+    @include media-320 {
+        max-width: 90%;
+    }
+    @include media-576 {
+        max-width: 80%;
+    }
+    @include media-768 {
+        max-width: 70%;
+    }
+    @include media-992 {
+        max-width: 45%;
+    }
 }
 
 .todo__input {
@@ -78,8 +91,8 @@ body {
         display: none;
         position: absolute;
         cursor: pointer;
-        top: 0;
-        right: 0;
+        top: -3px;
+        right: 4px;
         font-size: $font-size--large;
         color: $delete-btn-color;
         margin-bottom: 11px;
@@ -100,25 +113,20 @@ body {
     &__nav {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         background-color: $footer-bg-color;
         box-shadow: 0px 0px 5px $box-shadow-color;
         margin-top: 3px;
         padding: $todo-padding;
         border-radius: $todo-border-radius;
     }
-
-    &__count {
-        margin: 0;
-        padding: 2px;
-        font-size: $font-size--small;
-        color: $text-color--light;
-    }
 }
 
 .button-box {
-    position: absolute;
-    right: 50%;
-    transform: translateX(50%);
+    @include media-custom(400px) {
+        flex-grow: 1;
+        text-align: center;
+    }
 }
 
 button {
@@ -131,16 +139,25 @@ button {
     border: 1px solid transparent;
 }
 
+.button-selected {
+    color: darken($text-color--light, 15);
+    border: 1px solid lighten($text-color--light, 35);
+    border-radius: 2px;
+}
+
 .clear-btn {
     display: none;
 
     &:focus {
         border: 1px solid transparent;
     }
+
+    @include media-custom(400px) {
+        flex-grow: 1;
+    }
 }
 
 .done {
-    display: block;
     color: $done-color;
     text-decoration: line-through;
     transition: .5s all;

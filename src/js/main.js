@@ -69,7 +69,7 @@ function createTodo() {
         toggle(todoContainer, 'done');
         styleDisplay(clearBtn, 'none');
 
-        document.querySelectorAll('li.done').forEach( index => {
+        document.querySelectorAll('li.done').forEach(index => {
             if (index) styleDisplay(clearBtn, 'block');
         })
     });
@@ -111,28 +111,37 @@ function createTodo() {
         todoContainer.remove();
         styleDisplay(clearBtn, 'none');
 
-        document.querySelectorAll('li.done').forEach( index => {
+        document.querySelectorAll('li.done').forEach(index => {
             if (index) styleDisplay(clearBtn, 'block');
         })
     });
 
     allBtn.addEventListener('click', () => {
         styleDisplay(todoContainer, 'block');
+        allBtn.classList.add('button-selected');
+        completeBtn.classList.remove('button-selected');
+        activeBtn.classList.remove('button-selected');
     })
 
     function checkContainerClass(elem) {
         elem ? styleDisplay(todoContainer, 'block')
-             : styleDisplay(todoContainer, 'none');
+            : styleDisplay(todoContainer, 'none');
     }
 
     activeBtn.addEventListener('click', () => {
         const isClass = todoContainer.classList.contains('done');
         checkContainerClass(!isClass);
+        activeBtn.classList.add('button-selected');
+        completeBtn.classList.remove('button-selected');
+        allBtn.classList.remove('button-selected');
     });
 
     completeBtn.addEventListener('click', () => {
         const isClass = todoContainer.classList.contains('done');
         checkContainerClass(isClass);
+        completeBtn.classList.add('button-selected');
+        activeBtn.classList.remove('button-selected');
+        allBtn.classList.remove('button-selected');
 
     });
 

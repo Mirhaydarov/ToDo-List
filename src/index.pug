@@ -9,21 +9,20 @@ html(lang="ru")
         link(rel="stylesheet", href="css/style.css")
     body
 
-    header
-        h1.title To-Do List
-    main
-        section.todo
+        header
+            h1.title To-Do List
+        main
+            div.todo
+                .inner
+                    input(class='todo__input' type='text' placeholder='Что нужно сделать?' autofocus)
+                    ul.todo-list
+        footer.footer
             .inner
-                input(class='todo__input' type='text' placeholder='Что нужно сделать?' autofocus)
-                ul.todo-list
-    footer.footer
-        .inner
-            .footer__nav
-                p.footer__count Всего задач:
-                .button-box
-                    button(class='all-btn' type='button') Все
-                    button(class='active-btn' type='button') Активные
-                    button(class='complete-btn' type='button') Завершенные
-                button(class='clear-btn' type='button') Удалить завершенные
+                .footer__nav
+                    .button-box
+                        button(class='all-btn' type='button') Все
+                        button(class='active-btn' type='button') Активные
+                        button(class='complete-btn' type='button') Завершенные
+                    button(class='clear-btn' type='button') Удалить завершенные
 
-    script(src="js/main.js")
+        script(src="js/main.js")
