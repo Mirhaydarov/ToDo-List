@@ -1,154 +1,59 @@
-'use strict'
+import '../styles/style.scss';
 
-const todoInput = document.querySelector('.todo__input');
-const todoList = document.querySelector('.todo-list');
-const allBtn = document.querySelector('.all-btn');
-const activeBtn = document.querySelector('.active-btn');
-const completeBtn = document.querySelector('.complete-btn');
-const clearBtn = document.querySelector('.clear-btn');
-
-function appendElement(element, child) {
-    element.appendChild(child);
-}
-
-function toggle(element, elClass) {
-    element.classList.toggle(elClass);
-}
-
-function remove(element, elClass) {
-    element.classList.remove(elClass);
-}
-
-function styleDisplay(element, type) {
-    element.style.display = type;
-}
-
-todoInput.addEventListener('keydown', event => {
-    const isSpace = event.target.value.match(/^[ ]+$/);
-    const removeSpace = event.target.value.replace(/^[ ]+$/, '');
-    const keyName = event.key;
-
-    if (isSpace) {
-        event.target.value = removeSpace;
-
-    } else if (keyName === 'Enter' && event.target.value !== '') {
-        createTodo();
-        event.target.value = '';
-
-    } else if (keyName === 'Escape') {
-        event.target.value = '';
-        event.target.blur();
+const task = [
+    {
+        _id: "09182479138123763",
+        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
+        complete: false,
+    },
+    {
+        _id: "09182479132132323",
+        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
+        complete: true,
+    },
+    {
+        _id: "09182432453343763",
+        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
+        complete: false,
     }
+];
 
-});
+(function (arrOfTask) {
+    'use strict'
 
-function createTodo() {
-    const fragmentList = document.createDocumentFragment();
-    const todoContainer = document.createElement('li');
-    const todoItem = document.createElement('div');
-    const todoDesc = document.createElement('label');
-    const todoEdit = document.createElement('div');
-    const deleteBtn = document.createElement('button');
+    const objOfTask = arrOfTask.reduce((acc, task) => {
+        acc[task._id] = task;
+        return acc;
+    }, {});
 
-    todoItem.classList.add('todo-list__item');
-    todoDesc.classList.add('todo-list__desc');
-    todoEdit.classList.add('todo-list__edit');
-    deleteBtn.classList.add('todo-list__delete');
 
-    todoEdit.setAttribute('contenteditable', 'true');
-    todoDesc.textContent = todoInput.value;
+    function taskTemplate({ _id, body }) {
+        const li = document.createElement('li');
+        li.setAttribute('data-task-id', _id);
 
-    appendElement(todoContainer, todoItem);
-    appendElement(todoItem, todoDesc);
-    appendElement(todoItem, deleteBtn);
-    appendElement(fragmentList, todoContainer);
-    appendElement(todoList, fragmentList);
+        const todoBox = document.createElement('div');
+        todoBox.classList.add('todo-list__item');
 
-    todoDesc.addEventListener('click', () => {
-        toggle(todoDesc, 'done');
-        toggle(todoContainer, 'done');
-        styleDisplay(clearBtn, 'none');
+        const input = document.createElement('input');
+        input.classList.add('todo-list__check-input');
+        input.setAttribute('type', 'checkbox');
 
-        document.querySelectorAll('li.done').forEach(index => {
-            if (index) styleDisplay(clearBtn, 'block');
-        })
-    });
+        const checkbox = document.createElement('span');
+        checkbox.classList.add('todo-list__check-box');
 
-    todoItem.addEventListener('dblclick', () => {
-        todoEdit.textContent = todoDesc.textContent;
-        todoItem.replaceChild(todoEdit, todoDesc);
-        toggle(todoItem, 'item-edit');
-        todoItem.removeChild(deleteBtn);
-    });
+        const desc = document.createElement('label');
+        desc.classList.add('todo-list__desc');
+        desc.textContent = body;
 
-    todoEdit.addEventListener('keydown', event => {
-        const keyName = event.key
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('todo-list__delete');
 
-        if (keyName === 'Enter') {
-            todoDesc.textContent = todoEdit.textContent;
-            remove(todoItem, 'item-edit');
-            todoItem.replaceChild(todoDesc, todoEdit);
-            appendElement(todoItem, deleteBtn);
-            todoEdit.remove();
+        desc.appendChild(input);
+        desc.appendChild(checkbox);
+        todoBox.appendChild(desc);
+        todoBox.appendChild(deleteBtn);
+        li.appendChild(todoBox);
 
-        } else if (keyName === 'Escape') {
-            remove(todoItem, 'item-edit');
-            todoItem.replaceChild(todoDesc, todoEdit);
-            appendElement(todoItem, deleteBtn);
-            todoEdit.remove();
-        }
-    });
-
-    todoItem.addEventListener('mouseenter', () => {
-        styleDisplay(deleteBtn, 'block');
-    });
-
-    todoItem.addEventListener('mouseleave', () => {
-        styleDisplay(deleteBtn, 'none');
-    });
-
-    deleteBtn.addEventListener('click', () => {
-        todoContainer.remove();
-        styleDisplay(clearBtn, 'none');
-
-        document.querySelectorAll('li.done').forEach(index => {
-            if (index) styleDisplay(clearBtn, 'block');
-        })
-    });
-
-    allBtn.addEventListener('click', () => {
-        styleDisplay(todoContainer, 'block');
-        allBtn.classList.add('button-selected');
-        completeBtn.classList.remove('button-selected');
-        activeBtn.classList.remove('button-selected');
-    })
-
-    function checkContainerClass(elem) {
-        elem ? styleDisplay(todoContainer, 'block')
-            : styleDisplay(todoContainer, 'none');
+        return li;
     }
-
-    activeBtn.addEventListener('click', () => {
-        const isClass = todoContainer.classList.contains('done');
-        checkContainerClass(!isClass);
-        activeBtn.classList.add('button-selected');
-        completeBtn.classList.remove('button-selected');
-        allBtn.classList.remove('button-selected');
-    });
-
-    completeBtn.addEventListener('click', () => {
-        const isClass = todoContainer.classList.contains('done');
-        checkContainerClass(isClass);
-        completeBtn.classList.add('button-selected');
-        activeBtn.classList.remove('button-selected');
-        allBtn.classList.remove('button-selected');
-
-    });
-
-    clearBtn.addEventListener('click', () => {
-        document.querySelectorAll('li.done').forEach(index => {
-            index.remove();
-            styleDisplay(clearBtn, 'none');
-        });
-    });
-}
+}(task));
