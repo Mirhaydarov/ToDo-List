@@ -26,7 +26,23 @@ const task = [
         return acc;
     }, {});
 
+    // Elements UI
+    const listContainer = document.querySelector('.todo-list');
+    const todoInput = document.querySelector('.todo__input');
 
+    renderAllTask(objOfTask);
+
+    function renderAllTask(tasksList) {
+        const fragment = document.createDocumentFragment();
+
+        Object.values(tasksList).forEach(task => {
+            const li = taskTemplate(task);
+            fragment.appendChild(li);
+        });
+
+        listContainer.appendChild(fragment);
+    }
+    
     function taskTemplate({ _id, body }) {
         const li = document.createElement('li');
         li.setAttribute('data-task-id', _id);
