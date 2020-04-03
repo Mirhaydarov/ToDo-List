@@ -32,6 +32,7 @@ const task = [
 
     // Events
     todoInput.addEventListener('keydown', onCreateTaskHandler);
+    listContainer.addEventListener('click', onDeleteTaskHandler);
 
     renderAllTask(objOfTask);
 
@@ -102,6 +103,33 @@ const task = [
         } else if (code === 'Escape') {
             target.value = '';
             return;
+        }
+    }
+
+    function isConfirmed(id) {
+        const { body } = objOfTask[id];
+
+        const isConfirmed = confirm(
+            `Вы действительно хотите удалить эту задачу: ${body} ?`
+        );
+
+        if (!isConfirmed) return isConfirmed;
+        delete objOfTask[id];
+        return isConfirmed;
+    }
+
+    function deleteTaskFromHtml(confirmed, el) {
+        if (!confirmed) return;
+        el.remove();
+    }
+
+    function onDeleteTaskHandler({ target }) {
+        if (target.classList.contains('todo-list__delete')) {
+            const parent = target.closest('[data-task-id]');
+            const getId = parent.dataset.taskId;
+            const confirmed = isConfirmed(getId);
+
+            deleteTaskFromHtml(confirmed, parent);
         }
     }
 
