@@ -30,6 +30,9 @@ const task = [
     const listContainer = document.querySelector('.todo-list');
     const todoInput = document.querySelector('.todo__input');
 
+    // Events
+    todoInput.addEventListener('keydown', onCreateTaskHandler);
+
     renderAllTask(objOfTask);
 
     function renderAllTask(tasksList) {
@@ -42,7 +45,7 @@ const task = [
 
         listContainer.appendChild(fragment);
     }
-    
+
     function taskTemplate({ _id, body }) {
         const li = document.createElement('li');
         li.setAttribute('data-task-id', _id);
@@ -72,4 +75,34 @@ const task = [
 
         return li;
     }
+
+    function taskCreate(body) {
+        const newTask = {
+            body,
+            complete: false,
+            _id: `task-${Math.random()}`
+        };
+
+        objOfTask[newTask._id] = newTask;
+        return { ...newTask };
+    }
+
+    function onCreateTaskHandler({ target, code }) {
+        if (code === 'Enter' && target.value !== '') {
+            const todoValue = todoInput.value;
+            const task = taskCreate(todoValue);
+            const listItem = taskTemplate(task);
+
+            listContainer.insertAdjacentElement(
+                'afterbegin',
+                listItem
+            );
+            target.value = '';
+
+        } else if (code === 'Escape') {
+            target.value = '';
+            return;
+        }
+    }
+
 }(task));
