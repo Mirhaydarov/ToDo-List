@@ -1,30 +1,10 @@
 import '../styles/style.scss';
 
-const task = [
-    {
-        _id: "09182479138123763",
-        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
-        complete: false,
-    },
-    {
-        _id: "09182479132132323",
-        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
-        complete: true,
-    },
-    {
-        _id: "09182432453343763",
-        body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, quo!',
-        complete: false,
-    }
-];
 
-(function (arrOfTask) {
+(function () {
     'use strict'
 
-    const objOfTask = arrOfTask.reduce((acc, task) => {
-        acc[task._id] = task;
-        return acc;
-    }, {});
+    const tasks = JSON.parse(localStorage.getItem('task_value')) || [];
 
     // Elements UI
     const listContainer = document.querySelector('.todo-list');
@@ -34,7 +14,7 @@ const task = [
     todoInput.addEventListener('keydown', onCreateTaskHandler);
     listContainer.addEventListener('click', onDeleteTaskHandler);
 
-    renderAllTask(objOfTask);
+    renderAllTask(tasks.reverse());
 
     function renderAllTask(tasksList) {
         const fragment = document.createDocumentFragment();
@@ -84,8 +64,17 @@ const task = [
             _id: `task-${Math.random()}`
         };
 
-        objOfTask[newTask._id] = newTask;
+        tasks.push(newTask);
+        saveOnLocalStorage(tasks)
+
         return { ...newTask };
+    }
+
+    function saveOnLocalStorage(item) {
+        localStorage.setItem(
+            "task_value",
+            JSON.stringify(item)
+        )
     }
 
     function onCreateTaskHandler({ target, code }) {
@@ -133,4 +122,4 @@ const task = [
         }
     }
 
-}(task));
+}());
