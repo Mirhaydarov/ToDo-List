@@ -107,6 +107,17 @@ import '../styles/style.scss';
         return isConfirmed;
     }
 
+    function deleteTaskFromLocalStorage(confirmed, id, tasksList) {
+        if (!confirmed) return;
+
+        tasksList.forEach((task, i) => {
+            if (task._id === id) {
+                tasksList.splice(i, 1);
+            }
+            saveOnLocalStorage(tasksList);
+        });
+    }
+
     function deleteTaskFromHtml(confirmed, el) {
         if (!confirmed) return;
         el.remove();
@@ -119,6 +130,7 @@ import '../styles/style.scss';
             const confirmed = isConfirmed(getId);
 
             deleteTaskFromHtml(confirmed, parent);
+            deleteTaskFromLocalStorage(confirmed, getId, tasks);
         }
     }
 
