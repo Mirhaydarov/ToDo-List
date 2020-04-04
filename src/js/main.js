@@ -9,10 +9,12 @@ import '../styles/style.scss';
     // Elements UI
     const listContainer = document.querySelector('.todo-list');
     const todoInput = document.querySelector('.todo__input');
+    const todoEdit = document.createElement('div');
 
     // Events
     todoInput.addEventListener('keydown', onCreateTaskHandler);
     listContainer.addEventListener('click', onDeleteTaskHandler);
+    listContainer.addEventListener('dblclick', onEditTaskHandler);
 
     renderAllTask(tasks.reverse());
 
@@ -20,16 +22,16 @@ import '../styles/style.scss';
         const fragment = document.createDocumentFragment();
 
         Object.values(tasksList).forEach(task => {
-            const li = taskTemplate(task);
-            fragment.appendChild(li);
+            const todoContainer = taskTemplate(task);
+            fragment.appendChild(todoContainer);
         });
 
         listContainer.appendChild(fragment);
     }
 
     function taskTemplate({ _id, body }) {
-        const li = document.createElement('li');
-        li.setAttribute('data-task-id', _id);
+        const todoContainer = document.createElement('li');
+        todoContainer.setAttribute('data-task-id', _id);
 
         const todoBox = document.createElement('div');
         todoBox.classList.add('todo-list__item');
@@ -52,9 +54,9 @@ import '../styles/style.scss';
         desc.appendChild(checkbox);
         todoBox.appendChild(desc);
         todoBox.appendChild(deleteBtn);
-        li.appendChild(todoBox);
+        todoContainer.appendChild(todoBox);
 
-        return li;
+        return todoContainer;
     }
 
     function taskCreate(body) {
@@ -122,14 +124,34 @@ import '../styles/style.scss';
 
     function onDeleteTaskHandler({ target }) {
         if (target.classList.contains('todo-list__delete')) {
-            const parent = target.closest('[data-task-id]');
-            const getId = parent.dataset.taskId;
+            const todoContainer = target.closest('[data-task-id]');
+            const getId = todoContainer.dataset.taskId;
             const getBody = target.previousElementSibling.textContent;
             const confirmed = isConfirmed(getBody);
 
-            deleteTaskFromHtml(confirmed, parent);
+            deleteTaskFromHtml(confirmed, todoContainer);
             deleteTaskFromLocalStorage(confirmed, getId, tasks);
         }
+    }
+
+    function onEditTaskHandler({ target }) {
+        if (target.classList.contains('todo-list__desc')) {
+            const taskBody = target.textContent;
+            const taskParent = target.parentElement;
+
+            elementForEditTask(taskBody, taskParent);
+            taskParent.removeChild(target);
+        }
+    }
+
+    function elementForEditTask(body, el) {
+        todoEdit.setAttribute('contenteditable', 'true');
+        todoEdit.textContent = body;
+
+        el.insertAdjacentElement(
+            'afterbegin',
+            todoEdit
+        );
     }
 
 }());
