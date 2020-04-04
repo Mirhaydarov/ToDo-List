@@ -5,7 +5,7 @@ import '../styles/style.scss';
     'use strict'
 
     const tasks = JSON.parse(localStorage.getItem('task_value')) || [];
-
+    let saveTaskBody = '';
     // Elements UI
     const listContainer = document.querySelector('.todo-list');
     const todoInput = document.querySelector('.todo__input');
@@ -106,15 +106,20 @@ import '../styles/style.scss';
         return isConfirmed;
     }
 
-    function deleteTaskFromLocalStorage(confirmed, id, tasksList) {
+    function deleteTaskFromLocalStorage(confirmed, tasksList, id, taskObj) {
         if (!confirmed) return;
+        const lastChild = tasksList.length - 1;
 
         tasksList.forEach((task, i) => {
-            if (task._id === id) {
-                tasksList.splice(i, 1);
+            if (task._id === id && taskObj) {
+                tasksList.splice(i, 1, taskObj)
+                tasksList.splice(lastChild, 1);
+
+            } else if (task._id === id) {
+                tasksList.splice(i, 1)
             }
-            saveOnLocalStorage(tasksList);
         });
+        saveOnLocalStorage(tasksList);
     }
 
     function deleteTaskFromHtml(confirmed, el) {
@@ -130,7 +135,7 @@ import '../styles/style.scss';
             const confirmed = isConfirmed(getBody);
 
             deleteTaskFromHtml(confirmed, todoContainer);
-            deleteTaskFromLocalStorage(confirmed, getId, tasks);
+            deleteTaskFromLocalStorage(confirmed, tasks, getId);
         }
     }
 
@@ -138,6 +143,7 @@ import '../styles/style.scss';
         if (target.classList.contains('todo-list__desc')) {
             const taskBody = target.textContent;
             const taskParent = target.parentElement;
+            saveTaskBody = taskBody;
 
             elementForEditTask(taskBody, taskParent);
             taskParent.removeChild(target);
