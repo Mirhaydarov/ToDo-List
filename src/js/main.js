@@ -95,15 +95,12 @@ import '../styles/style.scss';
         }
     }
 
-    function isConfirmed(id) {
-        const { body } = objOfTask[id];
-
+    function isConfirmed(body) {
         const isConfirmed = confirm(
             `Вы действительно хотите удалить эту задачу: ${body} ?`
         );
 
         if (!isConfirmed) return isConfirmed;
-        delete objOfTask[id];
         return isConfirmed;
     }
 
@@ -127,7 +124,8 @@ import '../styles/style.scss';
         if (target.classList.contains('todo-list__delete')) {
             const parent = target.closest('[data-task-id]');
             const getId = parent.dataset.taskId;
-            const confirmed = isConfirmed(getId);
+            const getBody = target.previousElementSibling.textContent;
+            const confirmed = isConfirmed(getBody);
 
             deleteTaskFromHtml(confirmed, parent);
             deleteTaskFromLocalStorage(confirmed, getId, tasks);
