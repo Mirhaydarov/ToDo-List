@@ -5,7 +5,8 @@ import '../styles/style.scss';
     'use strict'
 
     const tasks = JSON.parse(localStorage.getItem('task_value')) || [];
-    let saveTaskBody = '';
+    let saveLastTaskBody = '';
+
     // Elements UI
     const listContainer = document.querySelector('.todo-list');
     const todoInput = document.querySelector('.todo__input');
@@ -13,6 +14,7 @@ import '../styles/style.scss';
 
     // Events
     todoInput.addEventListener('keydown', onCreateTaskHandler);
+    todoEdit.addEventListener('keydown', onSaveEditsTaskHandler);
     listContainer.addEventListener('click', onDeleteTaskHandler);
     listContainer.addEventListener('dblclick', onEditTaskHandler);
 
@@ -143,7 +145,7 @@ import '../styles/style.scss';
         if (target.classList.contains('todo-list__desc')) {
             const taskBody = target.textContent;
             const taskParent = target.parentElement;
-            saveTaskBody = taskBody;
+            saveLastTaskBody = taskBody;
 
             elementForEditTask(taskBody, taskParent);
             taskParent.removeChild(target);
@@ -158,6 +160,27 @@ import '../styles/style.scss';
             'afterbegin',
             todoEdit
         );
+    }
+
+    function onSaveEditsTaskHandler({ target, code }) {
+        if (code === 'Enter') {
+            createEditedTask(target, todoEdit.textContent);
+            
+        } else if (code === 'Escape') {
+            createEditedTask(target, saveLastTaskBody);
+        }
+    }
+
+    function createEditedTask(target, taskBody) {
+        const todoContainer = target.closest('[data-task-id]');
+        const getId = todoContainer.dataset.taskId;
+        const createTask = taskCreate(taskBody);
+        const task = taskTemplate(createTask);
+
+        todoContainer.insertAdjacentElement('afterend', task);
+        todoContainer.remove();
+
+        deleteTaskFromLocalStorage(true, tasks, getId, createTask);
     }
 
 }());
