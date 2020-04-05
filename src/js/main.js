@@ -20,6 +20,23 @@ import '../styles/style.scss';
 
     renderAllTask(tasks.reverse());
 
+    function addClassDoneIfTasksComplete(tasksList) {
+        const tasksBody = document.querySelectorAll('.todo-list__desc');
+
+        tasksBody.forEach(body => {
+            const checkbox = body.firstElementChild;
+
+            tasksList.forEach((task, i) => {
+                if (task.body === body.textContent) {
+                    if (tasksList[i].complete) {
+                        body.classList.add('done');
+                        checkbox.checked = true;
+                    }
+                }
+            });
+        });
+    }
+
     function renderAllTask(tasksList) {
         const fragment = document.createDocumentFragment();
 
@@ -29,6 +46,7 @@ import '../styles/style.scss';
         });
 
         listContainer.appendChild(fragment);
+        addClassDoneIfTasksComplete(tasksList.reverse());
     }
 
     function taskTemplate({ _id, body }) {
@@ -165,7 +183,7 @@ import '../styles/style.scss';
     function onSaveEditsTaskHandler({ target, code }) {
         if (code === 'Enter') {
             createEditedTask(target, todoEdit.textContent);
-            
+
         } else if (code === 'Escape') {
             createEditedTask(target, saveLastTaskBody);
         }
