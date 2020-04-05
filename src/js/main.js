@@ -17,8 +17,34 @@ import '../styles/style.scss';
     todoEdit.addEventListener('keydown', onSaveEditsTaskHandler);
     listContainer.addEventListener('click', onDeleteTaskHandler);
     listContainer.addEventListener('dblclick', onEditTaskHandler);
+    listContainer.addEventListener('click', onDoneTaskHandler);
+    listContainer.addEventListener('click', onDisableDefaultLabelAction);
 
     renderAllTask(tasks.reverse());
+
+    function onDoneTaskHandler({ target }) {
+        if (target.classList.contains('todo-list__check-input')) {
+            const taskBody = target.parentElement.textContent;
+            toggleClassIfTaskComplete(tasks, taskBody, target);
+        }
+    }
+
+    function toggleTaskComplete(tasksList, i, checkbox, boolean) {
+        tasksList[i].complete = boolean;
+        checkbox.parentElement.classList.toggle('done');
+        checkbox.checked = boolean;
+    }
+
+    function toggleClassIfTaskComplete(tasksList, taskBody, checkbox) {
+        tasksList.forEach((task, i) => {
+            if (task.body === taskBody) {
+                tasksList[i].complete
+                    ? toggleTaskComplete(tasksList, i, checkbox, false)
+                    : toggleTaskComplete(tasksList, i, checkbox, true);
+            }
+            saveOnLocalStorage(tasksList);
+        });
+    }
 
     function addClassDoneIfTasksComplete(tasksList) {
         const tasksBody = document.querySelectorAll('.todo-list__desc');
@@ -201,4 +227,9 @@ import '../styles/style.scss';
         deleteTaskFromLocalStorage(true, tasks, getId, createTask);
     }
 
+    function onDisableDefaultLabelAction(event) {
+    if (event.target.classList.contains('todo-list__desc')) {
+        event.preventDefault();
+        }
+    }
 }());
