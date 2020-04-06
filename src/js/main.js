@@ -20,7 +20,7 @@ import '../styles/style.scss';
     listContainer.addEventListener('click', onDoneTaskHandler);
     listContainer.addEventListener('click', onDisableDefaultLabelAction);
 
-    renderAllTask(tasks.reverse());
+    renderAllTask(tasks);
 
     function onDoneTaskHandler({ target }) {
         if (target.classList.contains('todo-list__check-input')) {
@@ -76,7 +76,7 @@ import '../styles/style.scss';
         });
 
         listContainer.appendChild(fragment);
-        addClassDoneIfTasksComplete(tasksList.reverse());
+        addClassDoneIfTasksComplete(tasksList);
     }
 
     function taskTemplate({ _id, body }) {
@@ -116,7 +116,7 @@ import '../styles/style.scss';
             _id: `task-${Math.random()}`
         };
 
-        tasks.push(newTask);
+        tasks.unshift(newTask);
         saveOnLocalStorage(tasks)
 
         return { ...newTask };
@@ -164,15 +164,14 @@ import '../styles/style.scss';
 
     function deleteTaskFromLocalStorage(confirmed, tasksList, id, taskObj) {
         if (!confirmed) return;
-        const lastChild = tasksList.length - 1;
 
         tasksList.forEach((task, i) => {
             if (task._id === id && taskObj) {
-                tasksList.splice(i, 1, taskObj)
-                tasksList.splice(lastChild, 1);
+                tasksList.splice(i, 1, taskObj);
+                tasksList.splice(0, 1);
 
             } else if (task._id === id) {
-                tasksList.splice(i, 1)
+                tasksList.splice(i, 1);
             }
         });
         saveOnLocalStorage(tasksList);
@@ -227,7 +226,7 @@ import '../styles/style.scss';
 
     function createEditedTask(target, taskBody) {
         const todoContainerArray = getTaskId(target);
-        const [, taskId] = todoContainerArray;
+        const [todoContainer, taskId] = todoContainerArray;
         const createTask = taskCreate(taskBody);
         const task = taskTemplate(createTask);
 
