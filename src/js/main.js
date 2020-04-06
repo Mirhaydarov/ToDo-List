@@ -24,8 +24,10 @@ import '../styles/style.scss';
 
     function onDoneTaskHandler({ target }) {
         if (target.classList.contains('todo-list__check-input')) {
-            const taskBody = target.parentElement.textContent;
-            toggleClassIfTaskComplete(tasks, taskBody, target);
+            const todoContainerArray = getTaskId(target);
+            const [, taskId] = todoContainerArray;
+
+            toggleClassIfTaskComplete(tasks, taskId, target);
         }
     }
 
@@ -35,9 +37,9 @@ import '../styles/style.scss';
         checkbox.checked = boolean;
     }
 
-    function toggleClassIfTaskComplete(tasksList, taskBody, checkbox) {
+    function toggleClassIfTaskComplete(tasksList, taskId, checkbox) {
         tasksList.forEach((task, i) => {
-            if (task.body === taskBody) {
+            if (task._id === taskId) {
                 tasksList[i].complete
                     ? toggleTaskComplete(tasksList, i, checkbox, false)
                     : toggleTaskComplete(tasksList, i, checkbox, true);
@@ -50,10 +52,12 @@ import '../styles/style.scss';
         const tasksBody = document.querySelectorAll('.todo-list__desc');
 
         tasksBody.forEach(body => {
+            const todoContainerArray = getTaskId(body);
+            const [, taskId] = todoContainerArray;
             const checkbox = body.firstElementChild;
 
             tasksList.forEach((task, i) => {
-                if (task.body === body.textContent) {
+                if (task._id === taskId) {
                     if (tasksList[i].complete) {
                         body.classList.add('done');
                         checkbox.checked = true;
@@ -152,6 +156,12 @@ import '../styles/style.scss';
         return isConfirmed;
     }
 
+    function getTaskId(target) {
+        const todoContainer = target.closest('[data-task-id]');
+        const getId = todoContainer.dataset.taskId;
+        return [todoContainer, getId];
+    }
+
     function deleteTaskFromLocalStorage(confirmed, tasksList, id, taskObj) {
         if (!confirmed) return;
         const lastChild = tasksList.length - 1;
@@ -175,13 +185,13 @@ import '../styles/style.scss';
 
     function onDeleteTaskHandler({ target }) {
         if (target.classList.contains('todo-list__delete')) {
-            const todoContainer = target.closest('[data-task-id]');
-            const getId = todoContainer.dataset.taskId;
+            const todoContainerArray = getTaskId(target);
+            const [todoContainer, taskId] = todoContainerArray;
             const getBody = target.previousElementSibling.textContent;
             const confirmed = isConfirmed(getBody);
 
             deleteTaskFromHtml(confirmed, todoContainer);
-            deleteTaskFromLocalStorage(confirmed, tasks, getId);
+            deleteTaskFromLocalStorage(confirmed, tasks, taskId);
         }
     }
 
@@ -216,15 +226,15 @@ import '../styles/style.scss';
     }
 
     function createEditedTask(target, taskBody) {
-        const todoContainer = target.closest('[data-task-id]');
-        const getId = todoContainer.dataset.taskId;
+        const todoContainerArray = getTaskId(target);
+        const [, taskId] = todoContainerArray;
         const createTask = taskCreate(taskBody);
         const task = taskTemplate(createTask);
 
         todoContainer.insertAdjacentElement('afterend', task);
         todoContainer.remove();
 
-        deleteTaskFromLocalStorage(true, tasks, getId, createTask);
+        deleteTaskFromLocalStorage(true, tasks, taskId, createTask);
     }
 
     function onDisableDefaultLabelAction(event) {
