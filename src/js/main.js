@@ -11,6 +11,10 @@ import '../styles/style.scss';
     const listContainer = document.querySelector('.todo-list');
     const todoInput = document.querySelector('.todo__input');
     const todoEdit = document.createElement('div');
+    const footerNav = document.querySelector('.footer__nav');
+    const allTasksBtn = document.querySelector('.all-btn');
+    const activeTasksBtn = document.querySelector('.active-btn');
+    const completeTasksBtn = document.querySelector('.complete-btn');
 
     // Events
     todoInput.addEventListener('keydown', onCreateTaskHandler);
@@ -19,6 +23,7 @@ import '../styles/style.scss';
     listContainer.addEventListener('dblclick', onEditTaskHandler);
     listContainer.addEventListener('click', onDoneTaskHandler);
     listContainer.addEventListener('click', onDisableDefaultLabelAction);
+    footerNav.addEventListener('click', onFooterBtnHandler);
 
     renderAllTask(tasks);
 
@@ -240,5 +245,41 @@ import '../styles/style.scss';
     if (event.target.classList.contains('todo-list__desc')) {
         event.preventDefault();
         }
+    }
+
+    function onFooterBtnHandler({ target }) {
+        const allBtn = target.classList.contains('all-btn');
+        const activeBtn = target.classList.contains('active-btn');
+        const completeBtn = target.classList.contains('complete-btn');
+
+        if (allBtn) {
+            addAndRemoveBtnClass(
+                allTasksBtn,
+                activeTasksBtn,
+                completeTasksBtn
+            );
+        }
+
+        if (activeBtn) {
+            addAndRemoveBtnClass(
+                activeTasksBtn,
+                completeTasksBtn,
+                allTasksBtn
+            );
+        }
+
+        if (completeBtn) {
+            addAndRemoveBtnClass(
+                completeTasksBtn,
+                allTasksBtn,
+                activeTasksBtn
+            );
+        }
+    }
+
+    function addAndRemoveBtnClass(addClass, removeClassOne, removeClassTwo) {
+        addClass.classList.add('button-selected');
+        removeClassOne.classList.remove('button-selected');
+        removeClassTwo.classList.remove('button-selected');
     }
 }());
