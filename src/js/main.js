@@ -51,6 +51,7 @@ import '../styles/style.scss';
             }
             saveOnLocalStorage(tasksList);
         });
+        showCertainTasks();
     }
 
     function addClassDoneIfTasksComplete(tasksList) {
@@ -145,6 +146,7 @@ import '../styles/style.scss';
                 listItem
             );
             target.value = '';
+            showCertainTasks();
 
         } else if (code === 'Escape') {
             target.value = '';
@@ -223,9 +225,11 @@ import '../styles/style.scss';
     function onSaveEditsTaskHandler({ target, code }) {
         if (code === 'Enter') {
             createEditedTask(target, todoEdit.textContent);
+            showCertainTasks();
 
         } else if (code === 'Escape') {
             createEditedTask(target, saveLastTaskBody);
+            showCertainTasks();
         }
     }
 
@@ -275,11 +279,56 @@ import '../styles/style.scss';
                 activeTasksBtn
             );
         }
+        showCertainTasks();
     }
 
     function addAndRemoveBtnClass(addClass, removeClassOne, removeClassTwo) {
         addClass.classList.add('button-selected');
         removeClassOne.classList.remove('button-selected');
         removeClassTwo.classList.remove('button-selected');
+    }
+
+    function showCertainTasks() {
+        if (allTasksBtn && allTasksBtn.matches('.button-selected')) {
+            showAllTasks();
+        }
+
+        if (activeTasksBtn && activeTasksBtn.matches('.button-selected')) {
+            showActiveTasks();
+        }
+
+        if (completeTasksBtn && completeTasksBtn.matches('.button-selected')) {
+            showCompleteTasks();
+        }
+    }
+
+    function showAllTasks() {
+        showOrHideTasks(tasks);
+    }
+
+    function showActiveTasks() {
+        showOrHideTasks(tasks, (complete) => !complete);
+    }
+
+    function showCompleteTasks() {
+        showOrHideTasks(tasks, (complete) => complete);
+    }
+
+    function showOrHideTasks(tasksList, complete) {
+        const tasksContainer = document.querySelectorAll('[data-task-id]');
+
+        if (tasksList && complete) {
+            tasksList.forEach((task, i) => {
+                tasksContainer[i].classList.add('hide');
+
+                if (complete(task.complete)) {
+                    tasksContainer[i].classList.remove('hide');
+                }
+            });
+        } else {
+            tasksList.forEach((task, i) => {
+                tasksContainer[i].classList.remove('hide');
+            });
+        }
     }
 }());
