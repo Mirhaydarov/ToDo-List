@@ -24,6 +24,7 @@ import '../styles/style.scss';
     listContainer.addEventListener('click', onDoneTaskHandler);
     listContainer.addEventListener('click', onDisableDefaultLabelAction);
     footerNav.addEventListener('click', onFooterBtnHandler);
+    footerNav.addEventListener('click', onDeleteCompeteTasksHandler);
 
     renderAllTask(tasks);
 
@@ -49,8 +50,8 @@ import '../styles/style.scss';
                     ? toggleTaskComplete(tasksList, i, checkbox, false)
                     : toggleTaskComplete(tasksList, i, checkbox, true);
             }
-            saveOnLocalStorage(tasksList);
         });
+        saveOnLocalStorage(tasksList);
         showCertainTasks();
     }
 
@@ -214,6 +215,7 @@ import '../styles/style.scss';
 
     function elementForEditTask(body, el) {
         todoEdit.setAttribute('contenteditable', 'true');
+        todoEdit.classList.add('item-edit');
         todoEdit.textContent = body;
 
         el.insertAdjacentElement(
@@ -331,4 +333,31 @@ import '../styles/style.scss';
             });
         }
     }
+
+    function onDeleteCompeteTasksHandler({ target }) {
+        if (target.classList.contains('clear-btn')) {
+            const completeTasks = document.querySelectorAll('.done');
+            const activeTasks = deleteCompleteTasksFromLocalStorage(tasks);
+
+            function deleteCompleteTasksFromHtml(completeTasks) {
+                completeTasks.forEach(taskBody => {
+                    taskBody.closest('[data-task-id]').remove();
+                });
+            }
+
+            function deleteCompleteTasksFromLocalStorage(tasksList) {
+                for (let i = 0; i < tasksList.length; i++) {
+                    if (tasksList[i].complete) {
+                        tasksList.splice(i, 1);
+                        i--;
+                    }
+                }
+                return tasksList;
+            }
+
+            deleteCompleteTasksFromHtml(completeTasks);
+            saveOnLocalStorage(activeTasks);
+        }
+    }
+
 }());
