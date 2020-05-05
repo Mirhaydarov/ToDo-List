@@ -19,10 +19,13 @@ html(lang="ru")
         footer.footer
             .inner
                 .footer__nav
-                    .button-box
-                        button(class='all-btn' type='button') Все
-                        button(class='active-btn' type='button') Активные
-                        button(class='complete-btn' type='button') Завершенные
+                    ul.button-box
+                        li
+                            button(class='all-btn button-selected' type='button') Все
+                        li
+                            button(class='active-btn' type='button') Активные
+                        li
+                            button(class='complete-btn' type='button') Завершенные
                     button(class='clear-btn' type='button') Удалить завершенные
 
         script(src="js/main.js")

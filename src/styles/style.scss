@@ -1,34 +1,35 @@
 @import "helpers/variables";
-@import "helpers/mixins";
 @import "helpers/media";
-@import "helpers/functions";
 @import "vendor/libs";
-@import "base/fonts";
-@import "../blocks/modules";
-// @import "base/general";
 
 
 body {
+    max-width: 1170px;
+    height: 100vh;
+    margin: 0 auto;
+
     background: $bg-color;
+
+    font-family: 'Source Sans Pro', Arial, sans-serif;
     font-size: $font-size--body;
     line-height: $line-height;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
-    max-width: 1170px;
-    margin: 0 auto;
-    height: 100vh;
 }
 
 .title {
     text-align: center;
+
     color: $h1-color;
-    font-size: $font-size--h1;
     text-shadow: 1px 2px 2px $h1-shadow-color;
+
+    font-size: $font-size--h1;
 }
 
 .inner {
-    max-width: 45%;
     display: block;
+
+    max-width: 45%;
     margin: 0 auto;
+
     @include media-320 {
         max-width: 90%;
     }
@@ -44,43 +45,54 @@ body {
 }
 
 .todo__input {
-    font-size: $font-size--normal;
-    line-height: 1;
-    color: $text-color;
+    box-sizing: border-box;
     width: 100%;
     padding: $todo-padding;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    border-radius: $todo-border-radius;
-    box-shadow: 0px 0px 5px $box-shadow-color;
+
     transition: 0.3s all;
+
+    color: $text-color;
+    border: none;
+    border-radius: $todo-border-radius;
+    outline: none;
+    box-shadow: 0px 0px 5px $box-shadow-color;
+
+    font-size: $font-size--normal;
+    line-height: 1;
     &:focus {
-        box-shadow: 0px 1px 10px darken($box-shadow-color, 15);
         transform: translateY(-1px);
+
+        box-shadow: 0px 1px 10px darken($box-shadow-color, 15);
     }
 }
 
 .todo-list {
-    padding: 0;
     margin: 0;
+    padding: 0;
+
     list-style-type: none;
-    font-size: $font-size--normal;
+
     color:  $text-color;
+
+    font-size: $font-size--normal;
 
     &__item {
         position: relative;
+
+        margin: 3px 0px;
+        padding: 19px 19px 19px 40px;
+
+        border-radius: $todo-border-radius;
         background-color: $text-color--lighten;
         box-shadow: 0px 0px 5px $box-shadow-color;
-        margin: 3px 0px;
-        padding: $todo-padding;
-        border-radius: $todo-border-radius;
     }
 
     &__desc {
+        display: block;
+
         cursor: pointer;
-        word-break: break-word;
         transition: .5s all;
+        word-break: break-word;
     }
 
     &__edit {
@@ -88,22 +100,26 @@ body {
     }
 
     &__delete {
-        display: none;
         position: absolute;
-        cursor: pointer;
         top: -3px;
-        right: 4px;
-        font-size: $font-size--large;
-        color: $delete-btn-color;
-        margin-bottom: 11px;
+        right: 6px;
+
+        height: 0;
+        padding: 0;
+
+        cursor: pointer;
         transition: color 0.2s ease-out;
+
+        color: $delete-btn-color;
+        border: 0;
+
+        font-size: $font-size--large;
         &::after {
             content:'\00d7';
         }
 
-        &:focus {
-            border: 0;
-            background: none;
+        &:hover,&:focus {
+            color: $delete-btn-focus-color;
             outline: none;
         }
     }
@@ -112,31 +128,49 @@ body {
 .footer {
     &__nav {
         display: flex;
-        justify-content: space-between;
         flex-wrap: wrap;
-        background-color: $footer-bg-color;
-        box-shadow: 0px 0px 5px $box-shadow-color;
+        justify-content: space-between;
+
         margin-top: 3px;
         padding: $todo-padding;
+
         border-radius: $todo-border-radius;
+        background-color: $footer-bg-color;
+        box-shadow: 0px 0px 5px $box-shadow-color;
     }
 }
 
 .button-box {
+    margin: 0;
+    padding: 0;
+
+    list-style-type: none;
+
     @include media-custom(400px) {
         flex-grow: 1;
+
         text-align: center;
+    }
+    & > li {
+        display: inline-block;
     }
 }
 
 button {
-    font-size: $font-size--small;
-    color: $text-color--light;
-    cursor: pointer;
-    background: none;
-    outline: none;
     padding: 2px;
+
+    cursor: pointer;
+
+    color: $text-color--light;
     border: 1px solid transparent;
+    outline: none;
+    background: none;
+
+    font-size: $font-size--small;
+
+    &:focus {
+        box-shadow: 0px 0px 1px $button-focus-color;
+    }
 }
 
 .button-selected {
@@ -146,26 +180,66 @@ button {
 }
 
 .clear-btn {
-    display: none;
-
-    &:focus {
-        border: 1px solid transparent;
-    }
+    display: block;
 
     @include media-custom(400px) {
         flex-grow: 1;
     }
+
+    &:focus {
+        border: 1px solid transparent;
+    }
 }
 
 .done {
-    color: $done-color;
-    text-decoration: line-through;
     transition: .5s all;
+    text-decoration: line-through;
+
+    color: $done-color;
 }
 
 .item-edit {
-    box-shadow: 0px 1px 10px darken($box-shadow-color, 15);
-    background-color: darken($text-color--lighten, 3);
-    color: $text-color;
-    transform: translateY(-1px);
+    outline: none;
+}
+
+.todo-list__check-input {
+    position: absolute;
+
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+
+}
+
+.todo-list__check-box {
+    position: absolute;
+    top: 50%;
+    left: 0.3em;
+
+    width: 1em;
+    height: 1em;
+
+    cursor: pointer;
+    transform: translateY(-50%);
+
+    border: 1px solid $done-color;
+    border-radius: 50%;
+}
+
+.todo-list__check-input:checked + .todo-list__check-box {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 210 297'%3E%3Cpath d='M149.083 119.52a3.534 3.534 0 00-5.066 0l-58.065 59.195-22.838-23.283a3.534 3.534 0 00-5.066 0 3.702 3.702 0 000 5.164l25.372 25.866a3.535 3.535 0 005.066 0l60.597-61.777a3.702 3.702 0 000-5.164z' fill='gray'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.todo-list__check-input:focus + .todo-list__check-box {
+    border: 1px solid darken($done-color, 35);
+}
+
+.hide {
+    display: none;
 }
