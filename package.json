@@ -1,0 +1,42 @@
+{
+    "name": "todo-list",
+    "version": "1.0.0",
+    "description": "webpack",
+    "main": "main.js",
+    "scripts": {
+        "start": "webpack-dev-server --mode development --open",
+        "dev": "webpack --mode development",
+        "dev:watch": "webpack --mode development --watch",
+        "build": "webpack --mode production"
+    },
+    "author": "",
+    "license": "ISC",
+    "config": {
+        "commitizen": {
+            "path": "node_modules/cz-customizable"
+        },
+        "cz-customizable": {
+            "config": ".config/git/commitizen.js"
+        }
+    },
+    "devDependencies": {
+        "@babel/core": "^7.9.0",
+        "@babel/preset-env": "^7.9.0",
+        "babel-loader": "^8.1.0",
+        "babel-polyfill": "^6.26.0",
+        "css-loader": "^3.4.2",
+        "cz-customizable": "^6.2.0",
+        "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "pug": "^2.0.4",
+        "pug-loader": "^2.4.0",
+        "sass": "^1.26.11",
+        "sass-loader": "^8.0.2",
+        "style-loader": "^1.1.3",
+        "terser-webpack-plugin": "^2.3.5",
+        "webpack": "^4.42.0",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.11.0"
+    }
+}
