@@ -1,5 +1,5 @@
 # ToDo-List
-![Application preview](./preview.png)
+## [Preview](https://mirhaydarov.github.io/ToDo-List/)
 
 ## About Application
 App use the _Local Storage_ for save a tasks.
